@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "380377310083",
+    "project_id": "compscilibrary",
+    "storage_bucket": "compscilibrary.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:380377310083:android:555e28832d65dc2bc08cb6",
+        "android_client_info": {
+          "package_name": "com.example.compscilibrary"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "380377310083-ss7aa9cvtachrl9mk6jfeq57svknpj62.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB6fJdxjx6QcoqKkUgk5tH2Ygn-9PWOR94"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "380377310083-ss7aa9cvtachrl9mk6jfeq57svknpj62.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
