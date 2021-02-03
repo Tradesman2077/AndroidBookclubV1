@@ -4,4 +4,13 @@
     <string name="register_button_text">Register</string>
     <string name="login_button_text">Login</string>
     <string name="register_activity_textView_text">Register</string>
+    <string name="login_title_text">Login</string>
+    <string name="email_enter_text">Email</string>
+    <string name="password_enter_text">Password</string>
+    <string name="enter_email_hint">enter email</string>
+    <string name="enter_password_hint">enter password</string>
+    <string name="confirm_password_text_view">Confirm password</string>
+    <string name="confirm_password_text_input">confirm password</string>
+    <string name="submit_button_register_text">Submit</string>
+    <string name="confirm_button_login_text">Confirm</string>
 </resources>
