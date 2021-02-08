@@ -13,4 +13,10 @@
     <string name="confirm_password_text_input">confirm password</string>
     <string name="submit_button_register_text">Submit</string>
     <string name="confirm_button_login_text">Confirm</string>
+    <string name="compsci_bookclub_tile_text">CompSci BookClub</string>
+    <string name="search_for_a_book_text">Search for a book</string>
+    <string name="book_icon_text">Book</string>
+    <string name="reading_list_text">Reading list</string>
+    <string name="account_text">Account</string>
+    <string name="log_out_text">log out</string>
 </resources>

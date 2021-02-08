@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -34,7 +36,7 @@ public class Login extends AppCompatActivity {
     public Button loginSubmit;
     public EditText loginEmailInput;
     public EditText loginPasswordInput;
-    private boolean alreadyMember = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,49 +46,52 @@ public class Login extends AppCompatActivity {
         loginEmailInput = findViewById(R.id.login_Email_Edit_Text);
         loginPasswordInput = findViewById(R.id.login_password_edit_text);
 
-        Intent homeScreenIntent = new Intent(this, HomeScreen.class);
-
         loginSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 String userInputEmail = loginEmailInput.getText().toString();
                 String userInputPassword = loginPasswordInput.getText().toString();
-                //query db for user
-                Query query = users_db.whereEqualTo("email", userInputEmail);
+                if (isValidEmail(userInputEmail)){
+                    //query db for user
+                    Query query = users_db.whereEqualTo("email", userInputEmail);
+                    query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()){
+                                Log.d(TAG, "query: ", task.getException());
+                                for (QueryDocumentSnapshot document :task.getResult()) {
+                                    String password = (String) document.get(KEY_PASSWORD);
+                                    String email = (String) document.get(KEY_EMAIL);
 
-                query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-
-                        if (task.isSuccessful()){
-                            for (QueryDocumentSnapshot document :task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                                String password = (String) document.get(KEY_PASSWORD);
-                                Log.d(TAG, password + " "+ userInputPassword);
-
-                                if (userInputPassword.equals(password)){
-                                    startActivity(homeScreenIntent);
-                                    Toast.makeText(Login.this, "Welcome back", Toast.LENGTH_LONG).show();
+                                    if (userInputPassword.equals(password)){
+                                        Intent homeScreenIntent = new Intent(getApplicationContext(), HomeScreen.class);
+                                        homeScreenIntent.putExtra("user email", email);
+                                        startActivity(homeScreenIntent);
+                                        Toast.makeText(Login.this, "Welcome back", Toast.LENGTH_LONG).show();
+                                    }
+                                    else if(!userInputPassword.equals(password)){
+                                        Toast.makeText(Login.this, "Password incorrect", Toast.LENGTH_LONG).show();
+                                    }
+                                    else{
+                                        Toast.makeText(Login.this, "Account not found, please register", Toast.LENGTH_LONG).show();
+                                    }
                                 }
-                                else{
-                                    Toast.makeText(Login.this, "Password incorrect", Toast.LENGTH_LONG).show();
-                                }
-
+                            }
+                            else {
+                                Toast.makeText(Login.this, "Account not found, please register", Toast.LENGTH_LONG).show();
                             }
                         }
-                        else {
-                            Log.d(TAG, "no user found: ", task.getException());
-                            alreadyMember=false;
-                            Toast.makeText(Login.this, "Account not found, please register", Toast.LENGTH_LONG).show();
-                        }
-                    }
-                });
+                    });
+                }
+                else {
+                    Toast.makeText(Login.this, "Please enter a valid email", Toast.LENGTH_LONG).show();
+                }
             }
-
         });
-
-
-
+    }
+    //check if input is an email
+    public static boolean isValidEmail(CharSequence target) {
+        return (!TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());
     }
 }
