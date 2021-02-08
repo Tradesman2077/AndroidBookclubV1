@@ -9,9 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CompSciLibrary">
-        <activity android:name=".HomeScreen"></activity>
+        <activity android:name=".AllBooks"></activity>
+        <activity android:name=".Add_book_activity" />
+        <activity android:name=".HomeScreen" />
         <activity android:name=".Register" />
         <activity android:name=".Login" />
+        <activity android:name=".Search" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

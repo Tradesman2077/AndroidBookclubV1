@@ -87,8 +87,8 @@
 
     <Button
         android:id="@+id/login_confirm_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="129dp"
+        android:layout_height="56dp"
         android:layout_marginTop="68dp"
         android:text="@string/confirm_button_login_text"
         app:backgroundTint="#000000"
