@@ -46,14 +46,17 @@ public class AllBooks extends AppCompatActivity {
            @Override
            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 for (QueryDocumentSnapshot snapshots : queryDocumentSnapshots){
+                    String title = snapshots.get("title").toString();
+                    String author = snapshots.get("author").toString();
+                    String subject = snapshots.get("subject").toString();
+                    String isbn = snapshots.get("ISBN").toString();
+
+                    //add to a new text view and add to scrollview
                     TextView newTextView = new TextView(getApplicationContext());
+                    newTextView.setText(String.format("%s\n%s\n%s\n%s\n", title, author, subject, isbn));
                     resultsLayout.addView(newTextView);
-                    newTextView.setText(Objects.requireNonNull(snapshots.get("title")).toString());
                     newTextView.setTextSize(18);
-                    newTextView.setTextAlignment(newTextView.TEXT_ALIGNMENT_CENTER);
-                    //Log.d(TAG, snapshots.getString("title"));
-
-
+                    newTextView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                 }
 
            }

@@ -25,4 +25,9 @@
     <string name="subject_hint">Subject</string>
     <string name="isbn_hint">ISBN</string>
     <string name="submit_add_book_button_text">Submit</string>
+    <string name="logo_book">book</string>
+    <string name="instructions">Tap a book to view details and reviews</string>
+    <string name="library_title_text">Library</string>
+    <string name="add_a_book_button_text">add a book</string>
+    <string name="library_button_text">Library</string>
 </resources>
