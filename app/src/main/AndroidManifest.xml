@@ -9,7 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CompSciLibrary">
-        <activity android:name=".AllBooks"></activity>
+        <activity android:name=".ReviewPage"></activity>
+        <activity android:name=".BookView" />
+        <activity android:name=".AllBooks" />
         <activity android:name=".Add_book_activity" />
         <activity android:name=".HomeScreen" />
         <activity android:name=".Register" />

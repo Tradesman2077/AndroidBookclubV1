@@ -5,11 +5,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
@@ -21,6 +24,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class Search extends AppCompatActivity {
 
     //Connection to firestore
@@ -33,6 +39,9 @@ public class Search extends AppCompatActivity {
     private Button searchButton;
     private String searchString;
     private static final String TAG = "activity_search";
+    private LinearLayout searchResultsLayout;
+    private TextView initialTextView;
+    private boolean resultsFound;
 
 
 
@@ -40,52 +49,65 @@ public class Search extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activty_search);
+        resultsFound  =false;
 
+        searchResultsLayout = findViewById(R.id.results_search_linear_layout);
         searchButton = findViewById(R.id.search_submit_button);
         searchTextBox = findViewById(R.id.seacrh_field);
+        initialTextView = findViewById(R.id.results_text_view);
+
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 searchString = searchTextBox.getText().toString();
+                String[] searchStringWordArr = searchString.split(" ");
 
-                Query query = book_db.whereEqualTo("title", searchString);
-                Query querySubject = book_db.whereEqualTo("subject", searchString);
-                query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                book_db.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()){
-                            for (QueryDocumentSnapshot document :task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData().get("title").toString());
-                                Log.d(TAG, document.getId() + " => " + document.getData().get("author").toString());
-                                Log.d(TAG, document.getId() + " => " + document.getData().get("subject").toString());
-                                Log.d(TAG, document.getId() + " => " + document.getData().get("ISBN").toString());
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        searchResultsLayout.removeAllViews();
+
+                        for (QueryDocumentSnapshot snapshots : queryDocumentSnapshots){
+                            String title = snapshots.get("title").toString();
+                            String author = snapshots.get("author").toString();
+                            String subject = snapshots.get("subject").toString();
+                            String isbn = snapshots.get("ISBN").toString();
+
+                            for (String word : searchStringWordArr){
+                                Pattern pattern = Pattern.compile(".*" + word.toLowerCase() + ".*");
+                                Matcher matcher = pattern.matcher(title.toLowerCase() + author.toLowerCase() + subject.toLowerCase() );
+                                if (matcher.find()){
+                                    TextView newTextView = new TextView(getApplicationContext());
+                                    newTextView.setText(String.format("%s\n%s\n%s\n%s\n", title, author, subject, isbn));
+                                    searchResultsLayout.addView(newTextView);
+                                    newTextView.setTextSize(18);
+                                    newTextView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                                }
                             }
+                            resultsFound = true;
                         }
-                        else {
-                            Log.d(TAG, "no book found", task.getException());
-                        }
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d(TAG, "onFailure: "+ e);
+
                     }
                 });
-                querySubject.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()){
-                            for (QueryDocumentSnapshot document :task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData().get("title").toString());
-                                Log.d(TAG, document.getId() + " => " + document.getData().get("author").toString());
-                                Log.d(TAG, document.getId() + " => " + document.getData().get("subject").toString());
-                                Log.d(TAG, document.getId() + " => " + document.getData().get("ISBN").toString());
-                            }
-                        }
-                        else {
-                            Log.d(TAG, "no book found", task.getException());
-                        }
-                    }
-                });
-                Log.d(TAG, "onClick: " + searchString);
+
+
             }
+
         });
+        if (!resultsFound){
+            TextView newTextView = new TextView(getApplicationContext());
+            newTextView.setText(R.string.no_results_found_text);
+            searchResultsLayout.addView(newTextView);
+            newTextView.setTextSize(18);
+            newTextView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        }
 
     }
 }

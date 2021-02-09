@@ -4,7 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Patterns;
@@ -36,6 +38,7 @@ public class Login extends AppCompatActivity {
     public Button loginSubmit;
     public EditText loginEmailInput;
     public EditText loginPasswordInput;
+    public static final String ID ="id";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,10 +66,24 @@ public class Login extends AppCompatActivity {
                                 for (QueryDocumentSnapshot document :task.getResult()) {
                                     String password = (String) document.get(KEY_PASSWORD);
                                     String email = (String) document.get(KEY_EMAIL);
+                                    String id = (String) document.getId();
 
                                     if (userInputPassword.equals(password)){
                                         Intent homeScreenIntent = new Intent(getApplicationContext(), HomeScreen.class);
                                         homeScreenIntent.putExtra("user email", email);
+
+                                        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                                        editor.putString("user", email);
+                                        editor.putString("id", id);
+                                        editor.apply();
+
+
+
+                                        //SharedPreferences pref = getApplicationContext().getSharedPreferences(ID, MODE_PRIVATE);
+                                        //SharedPreferences.Editor editor = pref.edit();
+                                        //editor.apply();
+
                                         startActivity(homeScreenIntent);
                                         Toast.makeText(Login.this, "Welcome back", Toast.LENGTH_LONG).show();
                                     }

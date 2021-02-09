@@ -3,6 +3,7 @@ package com.example.compscilibrary;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -22,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class AllBooks extends AppCompatActivity {
+public class  AllBooks extends AppCompatActivity {
 
 
 
@@ -57,6 +58,17 @@ public class AllBooks extends AppCompatActivity {
                     resultsLayout.addView(newTextView);
                     newTextView.setTextSize(18);
                     newTextView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                    newTextView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent viewBookIntent = new Intent(AllBooks.this, BookView.class);
+                            viewBookIntent.putExtra("title", title);
+                            viewBookIntent.putExtra("author", author);
+                            viewBookIntent.putExtra("subject", subject);
+                            viewBookIntent.putExtra("isbn", isbn);
+                            startActivity(viewBookIntent);
+                        }
+                    });
                 }
 
            }

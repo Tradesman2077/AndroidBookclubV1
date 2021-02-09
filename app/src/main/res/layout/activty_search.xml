@@ -8,16 +8,15 @@
 
     <TextView
         android:id="@+id/Title_text_view_search"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/alegreya"
-        android:text="Bookclub Search"
+        android:text="@string/bookclub_search_title_text"
         android:textAlignment="center"
         android:textColor="#000000"
         android:textSize="42sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.061" />
@@ -28,37 +27,47 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
         android:ems="10"
-        android:hint="Enter a title or subject"
+        android:hint="@string/enter_a_title_or_subject_hint"
         android:inputType="textPersonName"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Title_text_view_search" />
+        app:layout_constraintTop_toBottomOf="@+id/Title_text_view_search"
+        android:autofillHints="" />
 
     <Button
         android:id="@+id/search_submit_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="Search"
+        android:text="@string/search_button_text"
         app:backgroundTint="#000000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/seacrh_field" />
 
     <ScrollView
-        android:layout_width="468dp"
-        android:layout_height="555dp"
+        android:id="@+id/results_search_scroll_view"
+        android:layout_width="324dp"
+        android:layout_height="404dp"
         android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/search_submit_button">
 
         <LinearLayout
+            android:id="@+id/results_search_linear_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" />
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/results_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center" />
+        </LinearLayout>
     </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

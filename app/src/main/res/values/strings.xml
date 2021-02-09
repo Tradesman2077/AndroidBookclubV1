@@ -30,4 +30,14 @@
     <string name="library_title_text">Library</string>
     <string name="add_a_book_button_text">add a book</string>
     <string name="library_button_text">Library</string>
+    <string name="no_results_found_text">no results found</string>
+    <string name="search_button_text">Search</string>
+    <string name="enter_a_title_or_subject_hint">Enter a title or subject</string>
+    <string name="bookclub_search_title_text">Bookclub Search</string>
+    <string name="book_view_title_text">Book View</string>
+    <string name="title_book_view_text_view_text">title</string>
+    <string name="author_bookview_textview_text">author</string>
+    <string name="subject_title_text_bookview">subject</string>
+    <string name="leave_a_review_button_text">Leave a review</string>
+    <string name="isbn_bookView_titleText">isbn</string>
 </resources>
