@@ -77,13 +77,6 @@ public class Login extends AppCompatActivity {
                                         editor.putString("user", email);
                                         editor.putString("id", id);
                                         editor.apply();
-
-
-
-                                        //SharedPreferences pref = getApplicationContext().getSharedPreferences(ID, MODE_PRIVATE);
-                                        //SharedPreferences.Editor editor = pref.edit();
-                                        //editor.apply();
-
                                         startActivity(homeScreenIntent);
                                         Toast.makeText(Login.this, "Welcome back", Toast.LENGTH_LONG).show();
                                     }

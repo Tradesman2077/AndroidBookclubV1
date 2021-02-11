@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //basic login or register buttons with corresponding intents
 
         registerButton = findViewById(R.id.register_button);
         loginButton = findViewById(R.id.login_button);

@@ -40,4 +40,8 @@
     <string name="subject_title_text_bookview">subject</string>
     <string name="leave_a_review_button_text">Leave a review</string>
     <string name="isbn_bookView_titleText">isbn</string>
+    <string name="review_text_title">Review</string>
+    <string name="enter_your_review_below_and_submit">Enter your review below and submit</string>
+    <string name="submit_review_button_text">Submit review</string>
+    <string name="review_subtitle_text">Reviews</string>
 </resources>

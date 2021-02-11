@@ -54,7 +54,7 @@ public class  AllBooks extends AppCompatActivity {
 
                     //add to a new text view and add to scrollview
                     TextView newTextView = new TextView(getApplicationContext());
-                    newTextView.setText(String.format("%s\n%s\n%s\n%s\n", title, author, subject, isbn));
+                    newTextView.setText(String.format("\n%s\n%s\n%s\n%s\n", title, author, subject, isbn));
                     resultsLayout.addView(newTextView);
                     newTextView.setTextSize(18);
                     newTextView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);

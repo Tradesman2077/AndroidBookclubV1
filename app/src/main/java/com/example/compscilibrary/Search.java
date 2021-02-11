@@ -1,5 +1,6 @@
 package com.example.compscilibrary;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -83,6 +84,17 @@ public class Search extends AppCompatActivity {
                                     searchResultsLayout.addView(newTextView);
                                     newTextView.setTextSize(18);
                                     newTextView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                                    newTextView.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            Intent viewBookIntent = new Intent(Search.this, BookView.class);
+                                            viewBookIntent.putExtra("title", title);
+                                            viewBookIntent.putExtra("author", author);
+                                            viewBookIntent.putExtra("subject", subject);
+                                            viewBookIntent.putExtra("isbn", isbn);
+                                            startActivity(viewBookIntent);
+                                        }
+                                    });
                                 }
                             }
                             resultsFound = true;
