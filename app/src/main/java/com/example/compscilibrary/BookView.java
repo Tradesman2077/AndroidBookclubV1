@@ -31,6 +31,7 @@ public class BookView extends AppCompatActivity {
     private LinearLayout reviewLayout;
 
     //Connection to firestore
+
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference book_db =
             db.collection("CompSci_Db")
@@ -67,7 +68,7 @@ public class BookView extends AppCompatActivity {
         subjectTextView.setTextSize(20);
         isbnTextView.setText(currentBook.getISBN());
 
-        //return reviews for currentBook from  and add to scroll view
+        //return reviews for currentBook from db and add to scroll view
         getReviews(title);
 
 
@@ -75,7 +76,7 @@ public class BookView extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent reviewIntent = new Intent(BookView.this, ReviewPage.class);
-                reviewIntent.putExtra("title", title);
+                reviewIntent.putExtra("title", currentBook.getTitle());
                 startActivity(reviewIntent);
             }
         });

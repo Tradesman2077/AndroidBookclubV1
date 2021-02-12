@@ -60,7 +60,7 @@ public class Search extends AppCompatActivity {
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                // searches db and uses pattern match to check for key word from search
                 searchString = searchTextBox.getText().toString();
                 String[] searchStringWordArr = searchString.split(" ");
 
@@ -79,6 +79,7 @@ public class Search extends AppCompatActivity {
                                 Pattern pattern = Pattern.compile(".*" + word.toLowerCase() + ".*");
                                 Matcher matcher = pattern.matcher(title.toLowerCase() + author.toLowerCase() + subject.toLowerCase() );
                                 if (matcher.find()){
+                                    //if a match add a text view to the scroll view
                                     TextView newTextView = new TextView(getApplicationContext());
                                     newTextView.setText(String.format("%s\n%s\n%s\n%s\n", title, author, subject, isbn));
                                     searchResultsLayout.addView(newTextView);
@@ -87,6 +88,7 @@ public class Search extends AppCompatActivity {
                                     newTextView.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
+                                            //on click method for each return book view
                                             Intent viewBookIntent = new Intent(Search.this, BookView.class);
                                             viewBookIntent.putExtra("title", title);
                                             viewBookIntent.putExtra("author", author);
@@ -105,7 +107,6 @@ public class Search extends AppCompatActivity {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Log.d(TAG, "onFailure: "+ e);
-
                     }
                 });
 

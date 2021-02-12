@@ -34,16 +34,18 @@ public class ReviewPage extends AppCompatActivity {
 
     private Button submitReviewButton;
     private EditText reviewContentEditText;
+    // ref to collection in db storing reviews
     public static final String REVIEW_ID = "Q22fNKJZQ7cQz11oZ9wg";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review_page);
-
-        String title = getIntent().getStringExtra("title");
         submitReviewButton = findViewById(R.id.submit_review_button);
         reviewContentEditText = findViewById(R.id.reviewContentEditText);
+
+        //get title of book being reviewed and current user
+        String title = getIntent().getStringExtra("title");
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String  user = sharedPreferences.getString("user", "def") ;
 

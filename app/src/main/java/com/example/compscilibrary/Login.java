@@ -39,6 +39,7 @@ public class Login extends AppCompatActivity {
     public EditText loginEmailInput;
     public EditText loginPasswordInput;
     public static final String ID ="id";
+    public boolean registeredUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +56,7 @@ public class Login extends AppCompatActivity {
 
                 String userInputEmail = loginEmailInput.getText().toString();
                 String userInputPassword = loginPasswordInput.getText().toString();
+
                 if (isValidEmail(userInputEmail)){
                     //query db for user
                     Query query = users_db.whereEqualTo("email", userInputEmail);
@@ -62,7 +64,7 @@ public class Login extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             if (task.isSuccessful()){
-                                Log.d(TAG, "query: ", task.getException());
+                                registeredUser = true;
                                 for (QueryDocumentSnapshot document :task.getResult()) {
                                     String password = (String) document.get(KEY_PASSWORD);
                                     String email = (String) document.get(KEY_EMAIL);
@@ -71,28 +73,27 @@ public class Login extends AppCompatActivity {
                                     if (userInputPassword.equals(password)){
                                         Intent homeScreenIntent = new Intent(getApplicationContext(), HomeScreen.class);
                                         homeScreenIntent.putExtra("user email", email);
-
                                         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                                         SharedPreferences.Editor editor = sharedPreferences.edit();
                                         editor.putString("user", email);
                                         editor.putString("id", id);
                                         editor.apply();
                                         startActivity(homeScreenIntent);
-                                        Toast.makeText(Login.this, "Welcome back", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(Login.this, "Welcome back", Toast.LENGTH_SHORT).show();
                                     }
                                     else if(!userInputPassword.equals(password)){
                                         Toast.makeText(Login.this, "Password incorrect", Toast.LENGTH_LONG).show();
                                     }
-                                    else{
-                                        Toast.makeText(Login.this, "Account not found, please register", Toast.LENGTH_LONG).show();
-                                    }
                                 }
-                            }
-                            else {
-                                Toast.makeText(Login.this, "Account not found, please register", Toast.LENGTH_LONG).show();
                             }
                         }
                     });
+
+                    if (!registeredUser) {
+                        Toast.makeText(Login.this, "Account not found, please register", Toast.LENGTH_LONG).show();
+                        Intent registerIntent = new Intent(Login.this, Register.class);
+                        startActivity(registerIntent);
+                    }
                 }
                 else {
                     Toast.makeText(Login.this, "Please enter a valid email", Toast.LENGTH_LONG).show();
@@ -100,6 +101,8 @@ public class Login extends AppCompatActivity {
             }
         });
     }
+
+
     //check if input is an email
     public static boolean isValidEmail(CharSequence target) {
         return (!TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());

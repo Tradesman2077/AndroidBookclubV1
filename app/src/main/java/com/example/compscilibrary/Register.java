@@ -40,6 +40,7 @@ public class Register extends AppCompatActivity {
     //keys
     public static final String KEY_EMAIL = "email";
     public static final String KEY_PASSWORD = "password";
+
     private EditText emailInput;
     private EditText passwordInput;
     private EditText passwordInputConfirm;
@@ -59,72 +60,66 @@ public class Register extends AppCompatActivity {
         passwordInput = findViewById(R.id.password_entry_edit_text);
         passwordInputConfirm = findViewById(R.id.confirm_password_entry);
         confirmRegistrationButton = findViewById(R.id.submit_register_button);
+
         Intent loggedInIntent = new Intent(this, Login.class);
 
         confirmRegistrationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                //get user data from fields
                 userInputEmail = emailInput.getText().toString();
                 userPasswordInput = passwordInput.getText().toString();
                 userPasswordConfirmInput = passwordInputConfirm.getText().toString();
 
-                /* check if valid email entered before query */
-
                 if (isValidEmail(userInputEmail) && userPasswordInput.equals(userPasswordConfirmInput)){
                     /*
                 check if user already registered
-                 query the email
+                 query the email address
                 */
-                    Query query = users_db.whereEqualTo("email", userInputEmail);
-                    query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
 
-                            if (task.isSuccessful()){
-                                for (QueryDocumentSnapshot document :task.getResult()) {
-                                    Log.d(TAG, document.getId() + " => " + document.getData());
-                                    alreadyMember=true;
+                    users_db.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                        @Override
+                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                            for (QueryDocumentSnapshot snapshots : queryDocumentSnapshots){
+                                if (snapshots.get("email").toString().equals(userInputEmail)) {
+                                    alreadyMember = true;
                                 }
                             }
-                            else {
-                                Log.d(TAG, "no user found: ", task.getException());
-                                alreadyMember=false;
+                            if (!alreadyMember){
+                                //add user details to map
+                                Map<String, Object> map = new HashMap<>();
+                                map.put(KEY_EMAIL, userInputEmail);
+                                map.put(KEY_PASSWORD, userPasswordInput);
+                                //update db with map of details
+                                users_db.add(map).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                    @Override
+                                    public void onSuccess(DocumentReference documentReference) {
+                                        Toast.makeText(Register.this, "You have been successfully registered", Toast.LENGTH_LONG).show();
+                                        startActivity(loggedInIntent);
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(Register.this, "Something went wrong", Toast.LENGTH_LONG).show();
+                                    }
+                                });
+                            }
+                            else{
+                                //if user already db send to login
+                                Toast.makeText(Register.this, "You have already registered please log in", Toast.LENGTH_LONG).show();
+                                startActivity(loggedInIntent);
                             }
                         }
                     });
 
-                    //if not in db add and send to login activity or if already member send to login
-                    if (!alreadyMember){
-                        //add to map
-                        Map<String, Object> map = new HashMap<>();
-                        map.put(KEY_EMAIL, userInputEmail);
-                        map.put(KEY_PASSWORD, userPasswordInput);
 
-                        //update db with map of details
-                        users_db.add(map).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                            @Override
-                            public void onSuccess(DocumentReference documentReference) {
-                                Toast.makeText(Register.this, "You have been successfully registered", Toast.LENGTH_LONG).show();
-                                startActivity(loggedInIntent);
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(Register.this, "Something went wrong", Toast.LENGTH_LONG).show();
-                            }
-                        });
-                    }
-                    else{
-                        Toast.makeText(Register.this, "You have already registered please log in", Toast.LENGTH_LONG).show();
-                        startActivity(loggedInIntent);
-                    }
                 }
                 else if(!userPasswordInput.equals(userPasswordConfirmInput)){
+                    //check passwords match
                     Toast.makeText(Register.this, "Passwords don't match", Toast.LENGTH_LONG).show();
                 }
                 else {
+                    //else if email not valid
                     Toast.makeText(Register.this, "Please enter a valid email", Toast.LENGTH_LONG).show();
                 }
             }
@@ -135,5 +130,6 @@ public class Register extends AppCompatActivity {
     public static boolean isValidEmail(CharSequence target) {
         return (!TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());
     }
+
 
 }
