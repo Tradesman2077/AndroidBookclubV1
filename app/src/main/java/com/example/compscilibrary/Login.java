@@ -23,6 +23,8 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.Objects;
+
 public class Login extends AppCompatActivity {
 
     //Connection to firestore
@@ -39,7 +41,7 @@ public class Login extends AppCompatActivity {
     public EditText loginEmailInput;
     public EditText loginPasswordInput;
     public static final String ID ="id";
-    public boolean registeredUser;
+    public boolean registeredUser =false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,21 +58,24 @@ public class Login extends AppCompatActivity {
 
                 String userInputEmail = loginEmailInput.getText().toString();
                 String userInputPassword = loginPasswordInput.getText().toString();
-
+                //check if email valid
                 if (isValidEmail(userInputEmail)){
                     //query db for user
+                    Log.d(TAG, "onComplete: "+ "here at reg");
                     Query query = users_db.whereEqualTo("email", userInputEmail);
                     query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             if (task.isSuccessful()){
-                                registeredUser = true;
-                                for (QueryDocumentSnapshot document :task.getResult()) {
+
+                                for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
                                     String password = (String) document.get(KEY_PASSWORD);
                                     String email = (String) document.get(KEY_EMAIL);
                                     String id = (String) document.getId();
 
                                     if (userInputPassword.equals(password)){
+
+                                        registeredUser = true;
                                         Intent homeScreenIntent = new Intent(getApplicationContext(), HomeScreen.class);
                                         homeScreenIntent.putExtra("user email", email);
                                         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
@@ -81,20 +86,21 @@ public class Login extends AppCompatActivity {
                                         startActivity(homeScreenIntent);
                                         Toast.makeText(Login.this, "Welcome back", Toast.LENGTH_SHORT).show();
                                     }
-                                    else if(!userInputPassword.equals(password)){
+                                    else {
                                         Toast.makeText(Login.this, "Password incorrect", Toast.LENGTH_LONG).show();
                                     }
                                 }
                             }
+                            //if query unsuccessful
+                            if (!registeredUser){
+                                Toast.makeText(Login.this, "Account not found, please register", Toast.LENGTH_LONG).show();
+                                Intent registerIntent = new Intent(Login.this, Register.class);
+                                startActivity(registerIntent);
+                            }
                         }
                     });
-
-                    if (!registeredUser) {
-                        Toast.makeText(Login.this, "Account not found, please register", Toast.LENGTH_LONG).show();
-                        Intent registerIntent = new Intent(Login.this, Register.class);
-                        startActivity(registerIntent);
-                    }
                 }
+                //if not valid email
                 else {
                     Toast.makeText(Login.this, "Please enter a valid email", Toast.LENGTH_LONG).show();
                 }
@@ -103,7 +109,7 @@ public class Login extends AppCompatActivity {
     }
 
 
-    //check if input is an email
+    //method to check if input is an email
     public static boolean isValidEmail(CharSequence target) {
         return (!TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());
     }
