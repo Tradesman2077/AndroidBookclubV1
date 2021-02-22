@@ -14,7 +14,7 @@
         android:text="@string/compsci_bookclub_tile_text"
         android:textAlignment="center"
         android:textColor="#000000"
-        android:textSize="36sp"
+        android:textSize="40sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -36,20 +36,19 @@
 
     <Button
         android:id="@+id/search_book_button"
-        android:layout_width="226dp"
-        android:layout_height="64dp"
-        android:layout_marginTop="40dp"
+        android:layout_width="239dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="20dp"
         android:text="@string/search_for_a_book_text"
         app:backgroundTint="#000000"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/username_text_view" />
 
     <Button
         android:id="@+id/add_book_button"
-        android:layout_width="226dp"
-        android:layout_height="64dp"
+        android:layout_width="239dp"
+        android:layout_height="80dp"
         android:layout_marginTop="20dp"
         android:text="@string/add_a_book_button_text"
         app:backgroundTint="#000000"
@@ -60,8 +59,8 @@
 
     <Button
         android:id="@+id/all_books_button"
-        android:layout_width="226dp"
-        android:layout_height="64dp"
+        android:layout_width="239dp"
+        android:layout_height="80dp"
         android:layout_marginTop="16dp"
         android:text="@string/library_button_text"
         app:backgroundTint="#000000"
@@ -76,10 +75,9 @@
         android:id="@+id/scrollView2"
         android:layout_width="283dp"
         android:layout_height="240dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.507"
         app:layout_constraintStart_toStartOf="parent">
 
         <LinearLayout

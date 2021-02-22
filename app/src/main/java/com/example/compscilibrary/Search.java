@@ -50,7 +50,7 @@ public class Search extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activty_search);
-        resultsFound  =false;
+
 
         searchResultsLayout = findViewById(R.id.results_search_linear_layout);
         searchButton = findViewById(R.id.search_submit_button);

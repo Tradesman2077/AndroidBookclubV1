@@ -94,20 +94,21 @@ public class Register extends AppCompatActivity {
                                 users_db.add(map).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                     @Override
                                     public void onSuccess(DocumentReference documentReference) {
-                                        Toast.makeText(Register.this, "You have been successfully registered", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(Register.this, "You have been successfully registered", Toast.LENGTH_SHORT).show();
                                         startActivity(loggedInIntent);
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
-                                        Toast.makeText(Register.this, "Something went wrong", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(Register.this, "Something went wrong", Toast.LENGTH_SHORT).show();
                                     }
                                 });
                             }
                             else{
                                 //if user already db send to login
-                                Toast.makeText(Register.this, "You have already registered please log in", Toast.LENGTH_LONG).show();
+                                Toast.makeText(Register.this, "You have already registered please log in", Toast.LENGTH_SHORT).show();
                                 startActivity(loggedInIntent);
+
                             }
                         }
                     });
@@ -116,11 +117,11 @@ public class Register extends AppCompatActivity {
                 }
                 else if(!userPasswordInput.equals(userPasswordConfirmInput)){
                     //check passwords match
-                    Toast.makeText(Register.this, "Passwords don't match", Toast.LENGTH_LONG).show();
+                    Toast.makeText(Register.this, "Passwords don't match", Toast.LENGTH_SHORT).show();
                 }
                 else {
                     //else if email not valid
-                    Toast.makeText(Register.this, "Please enter a valid email", Toast.LENGTH_LONG).show();
+                    Toast.makeText(Register.this, "Please enter a valid email", Toast.LENGTH_SHORT).show();
                 }
             }
         });

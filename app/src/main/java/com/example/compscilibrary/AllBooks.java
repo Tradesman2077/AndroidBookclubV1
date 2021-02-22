@@ -44,19 +44,21 @@ public class  AllBooks extends AppCompatActivity {
         setContentView(R.layout.activity_all_books);
 
         resultsLayout = findViewById(R.id.resultsLayout);
+        getAllBooks();
 
-       book_db.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-           @Override
-           public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+    }
+
+    //method to display all books
+    private void getAllBooks(){
+        book_db.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 for (QueryDocumentSnapshot snapshots : queryDocumentSnapshots){
-                    String title = snapshots.get("title").toString();
-                    String author = snapshots.get("author").toString();
-                    String subject = snapshots.get("subject").toString();
-                    String isbn = snapshots.get("ISBN").toString();
+                    Book book = new Book( snapshots.get("title").toString(), snapshots.get("author").toString(), snapshots.get("subject").toString(), snapshots.get("ISBN").toString());
 
                     //add to a new text view and add to scrollview
                     TextView newTextView = new TextView(getApplicationContext());
-                    newTextView.setText(String.format("\n%s\n%s\n%s\n%s\n", title, author, subject, isbn));
+                    newTextView.setText(String.format("\n%s\n%s\n%s\n%s\n", book.getTitle(), book.getAuthor(), book.getSubject(), book.getISBN()));
                     resultsLayout.addView(newTextView);
                     newTextView.setTextSize(18);
 
@@ -70,24 +72,24 @@ public class  AllBooks extends AppCompatActivity {
                     }
                     newTextView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                     newTextView.setOnClickListener(new View.OnClickListener() {
+                        //on click for book view
                         @Override
                         public void onClick(View v) {
                             Intent viewBookIntent = new Intent(AllBooks.this, BookView.class);
-                            viewBookIntent.putExtra("title", title);
-                            viewBookIntent.putExtra("author", author);
-                            viewBookIntent.putExtra("subject", subject);
-                            viewBookIntent.putExtra("isbn", isbn);
+                            viewBookIntent.putExtra("title", book.getTitle());
+                            viewBookIntent.putExtra("author", book.getAuthor());
+                            viewBookIntent.putExtra("subject", book.getSubject());
+                            viewBookIntent.putExtra("isbn", book.getISBN());
                             startActivity(viewBookIntent);
                         }
                     });
                 }
-
-           }
-       }).addOnFailureListener(new OnFailureListener() {
-           @Override
-           public void onFailure(@NonNull Exception e) {
-               Log.d(TAG, "onFailure: " + e.toString());
-           }
-       });
-    }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d(TAG, "onFailure: " + e.toString());
+            }
+        });
+    };
 }

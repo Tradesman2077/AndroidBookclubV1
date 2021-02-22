@@ -54,13 +54,14 @@ public class ReviewPage extends AppCompatActivity {
         String  user = sharedPreferences.getString("user", "def") ;
 
         submitReviewButton.setOnClickListener(new View.OnClickListener() {
+            //add review
             @Override
             public void onClick(View v) {
                 Map<String, Object> data = new HashMap<>();
                 data.put(title, reviewContentEditText.getText().toString());
                 Task<DocumentReference> doc = book_db.document(REVIEW_ID).collection("reviews").add(data);
                 Map<String, Object> data2 = new HashMap<>();
-                String newsItem = "Reviwed: " + title;
+                String newsItem = "Reviewed: " + title;
                 data2.put(user, newsItem);
                 Task<DocumentReference> doc2 = news_db.add(data2).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                     @Override
