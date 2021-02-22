@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -25,16 +26,17 @@ import java.util.Objects;
 
 public class  AllBooks extends AppCompatActivity {
 
-
-
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference book_db =
             db.collection("CompSci_Db")
                     .document("books").collection("book_list");
 
+
+
     public static final String TAG = "all_books";
     private LinearLayout resultsLayout;
     private List Booklist = new ArrayList<Book>();
+    private boolean greyTextBackground;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +59,15 @@ public class  AllBooks extends AppCompatActivity {
                     newTextView.setText(String.format("\n%s\n%s\n%s\n%s\n", title, author, subject, isbn));
                     resultsLayout.addView(newTextView);
                     newTextView.setTextSize(18);
+
+                    //sets alternating colours on textviews backgorunds
+                    if (greyTextBackground){
+                        newTextView.setBackgroundColor(Color.rgb(234, 234, 234));
+                        greyTextBackground =false;
+                    }
+                    else {
+                        greyTextBackground = true;
+                    }
                     newTextView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                     newTextView.setOnClickListener(new View.OnClickListener() {
                         @Override

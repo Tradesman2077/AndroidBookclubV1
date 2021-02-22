@@ -44,4 +44,5 @@
     <string name="enter_your_review_below_and_submit">Enter your review below and submit</string>
     <string name="submit_review_button_text">Submit review</string>
     <string name="review_subtitle_text">Reviews</string>
+    <string name="news_title">News</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.example.compscilibrary;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -12,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -30,6 +32,8 @@ public class ReviewPage extends AppCompatActivity {
     private CollectionReference book_db =
             db.collection("CompSci_Db")
                     .document("books").collection("book_list");
+    private CollectionReference news_db = db.collection("CompSci_Db")
+            .document("news").collection("changes");
 
 
     private Button submitReviewButton;
@@ -52,10 +56,20 @@ public class ReviewPage extends AppCompatActivity {
         submitReviewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(ReviewPage.this, "Review added.", Toast.LENGTH_LONG).show();
                 Map<String, Object> data = new HashMap<>();
                 data.put(title, reviewContentEditText.getText().toString());
                 Task<DocumentReference> doc = book_db.document(REVIEW_ID).collection("reviews").add(data);
+                Map<String, Object> data2 = new HashMap<>();
+                String newsItem = "Reviwed: " + title;
+                data2.put(user, newsItem);
+                Task<DocumentReference> doc2 = news_db.add(data2).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentReference> task) {
+                        Log.d("tag", "onComplete: "+ newsItem);
+                    }
+                });
+
+                Toast.makeText(ReviewPage.this, "Review added.", Toast.LENGTH_LONG).show();
                 finish();
             }
         });

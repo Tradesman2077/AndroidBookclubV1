@@ -1,6 +1,7 @@
 package com.example.compscilibrary;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -45,7 +46,6 @@ public class Search extends AppCompatActivity {
     private boolean resultsFound;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,6 +79,7 @@ public class Search extends AppCompatActivity {
                                 Pattern pattern = Pattern.compile(".*" + word.toLowerCase() + ".*");
                                 Matcher matcher = pattern.matcher(title.toLowerCase() + author.toLowerCase() + subject.toLowerCase() );
                                 if (matcher.find()){
+
                                     //if a match add a text view to the scroll view
                                     TextView newTextView = new TextView(getApplicationContext());
                                     newTextView.setText(String.format("%s\n%s\n%s\n%s\n", title, author, subject, isbn));

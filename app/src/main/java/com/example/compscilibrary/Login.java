@@ -42,6 +42,7 @@ public class Login extends AppCompatActivity {
     public EditText loginPasswordInput;
     public static final String ID ="id";
     public boolean registeredUser =false;
+    public boolean wrongPassword = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,11 +89,12 @@ public class Login extends AppCompatActivity {
                                     }
                                     else {
                                         Toast.makeText(Login.this, "Password incorrect", Toast.LENGTH_LONG).show();
+                                        wrongPassword = true;
                                     }
                                 }
                             }
                             //if query unsuccessful
-                            if (!registeredUser){
+                            if (!registeredUser && !wrongPassword){
                                 Toast.makeText(Login.this, "Account not found, please register", Toast.LENGTH_LONG).show();
                                 Intent registerIntent = new Intent(Login.this, Register.class);
                                 startActivity(registerIntent);
