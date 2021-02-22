@@ -12,15 +12,35 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CompSciLibrary">
-        <activity android:name=".ReviewPage"></activity>
-        <activity android:name=".BookView" />
-        <activity android:name=".AllBooks" />
-        <activity android:name=".Add_book_activity" />
-        <activity android:name=".HomeScreen" />
-        <activity android:name=".Register" />
-        <activity android:name=".Login" />
-        <activity android:name=".Search" />
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".ReviewPage"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
+        <activity android:name=".BookView"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".AllBooks"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Add_book_activity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".HomeScreen"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Register"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Login"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Search"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".MainActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
