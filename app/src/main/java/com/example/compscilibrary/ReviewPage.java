@@ -60,13 +60,14 @@ public class ReviewPage extends AppCompatActivity {
                 Map<String, Object> data = new HashMap<>();
                 data.put(title, reviewContentEditText.getText().toString());
                 Task<DocumentReference> doc = book_db.document(REVIEW_ID).collection("reviews").add(data);
-                Map<String, Object> data2 = new HashMap<>();
+                //add action to news feed
+                Map<String, Object> newsData = new HashMap<>();
                 String newsItem = "Reviewed: " + title;
-                data2.put(user, newsItem);
-                Task<DocumentReference> doc2 = news_db.add(data2).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                newsData.put(user, newsItem);
+                Task<DocumentReference> doc2 = news_db.add(newsData).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentReference> task) {
-                        Log.d("tag", "onComplete: "+ newsItem);
+                        Log.d("tag", "onComplete: "+ newsItem + "added");
                     }
                 });
 

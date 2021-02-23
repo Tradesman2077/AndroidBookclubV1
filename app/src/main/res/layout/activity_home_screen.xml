@@ -49,11 +49,10 @@
         android:id="@+id/add_book_button"
         android:layout_width="239dp"
         android:layout_height="80dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="36dp"
         android:text="@string/add_a_book_button_text"
         app:backgroundTint="#000000"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/search_book_button" />
 
@@ -66,19 +65,20 @@
         app:backgroundTint="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/add_book_button"
-        app:layout_constraintVertical_bias="0.015" />
+        app:layout_constraintVertical_bias="0.07" />
 
     <ScrollView
         android:id="@+id/scrollView2"
-        android:layout_width="283dp"
-        android:layout_height="240dp"
+        android:layout_width="349dp"
+        android:layout_height="219dp"
         android:layout_marginBottom="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/all_books_button"
+        app:layout_constraintVertical_bias="1.0">
 
         <LinearLayout
             android:id="@+id/newsLayout"
@@ -89,13 +89,13 @@
 
     <TextView
         android:id="@+id/textView4"
-        android:layout_width="82dp"
-        android:layout_height="31dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="@string/news_title"
         android:textAlignment="center"
+        android:textColor="#000000"
         app:layout_constraintBottom_toTopOf="@+id/scrollView2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/all_books_button"
         app:layout_constraintVertical_bias="1.0" />

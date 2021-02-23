@@ -6,13 +6,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -58,6 +61,17 @@ public class Add_book_activity extends AppCompatActivity {
                 Book newBook = new Book(authorField.getText().toString(), titleField.getText().toString(),
                         isbnField.getText().toString(), subjectField.getText().toString());
                 addBook(newBook);
+
+                // add to news feed
+                Map<String, Object> newsData = new HashMap<>();
+                String newsItem = "Book added: " + newBook.getTitle();
+                newsData.put("Update - ", newsItem);
+                Task<DocumentReference> doc2 = news_db.add(newsData).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentReference> task) {
+                        Log.d("tag", "onComplete: "+ newsItem + "added");
+                    }
+                });
 
             }
         });
