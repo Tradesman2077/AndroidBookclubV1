@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
@@ -38,12 +39,14 @@ public class Login extends AppCompatActivity {
     public static final String KEY_PASSWORD = "password";
 
     private static final String TAG = "activity_login";
-    public Button loginSubmit;
-    public EditText loginEmailInput;
-    public EditText loginPasswordInput;
+    private Button loginSubmit;
+    private EditText loginEmailInput;
+    private EditText loginPasswordInput;
     public static final String ID ="id";
-    public boolean registeredUser =false;
-    public boolean wrongPassword = false;
+    private boolean registeredUser =false;
+    private boolean wrongPassword = false;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +79,9 @@ public class Login extends AppCompatActivity {
 
     //login validation
     private void loginAttempt(String emailAttempt, String passwordAttempt){
+
         if (isValidEmail(emailAttempt)){
+
 
             //query db for user
             Query query = users_db.whereEqualTo("email", emailAttempt);
@@ -97,17 +102,20 @@ public class Login extends AppCompatActivity {
                                 editor.putString("user", email);
                                 editor.putString("id", id);
                                 editor.apply();
+                                wrongPassword = false;
                                 startActivity(homeScreenIntent);
                             }
                             else {
-                                Toast.makeText(Login.this, "Password incorrect", Toast.LENGTH_SHORT).show();
                                 wrongPassword = true;
+                                loginPasswordInput.setText("");
+                                loginPasswordInput.setHintTextColor(Color.rgb(255, 204, 203));
+                                loginPasswordInput.setHint("password incorrect");
                             }
                         }
                     }
                     //if query unsuccessful
                     if (!registeredUser && !wrongPassword){
-                        Toast.makeText(Login.this, "Account not found, please register", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Login.this, "Account not found, please register", Toast.LENGTH_LONG).show();
                         Intent registerIntent = new Intent(Login.this, Register.class);
                         startActivity(registerIntent);
                     }
@@ -116,6 +124,7 @@ public class Login extends AppCompatActivity {
         }
         else {
             Toast.makeText(Login.this, "Please enter a valid email", Toast.LENGTH_SHORT).show();
+
         }
 
     }

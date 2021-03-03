@@ -44,12 +44,8 @@ public class BookView extends AppCompatActivity {
         getApplicationContext();
 
         ///get book details
-        String title = getIntent().getStringExtra("title");
-        String author = getIntent().getStringExtra("author");
-        String subject = getIntent().getStringExtra("subject");
-        String isbn = getIntent().getStringExtra("isbn");
-
-        Book currentBook = new Book(title, author, isbn, subject);
+        Book currentBook = new Book(getIntent().getStringExtra("title"), getIntent().getStringExtra("author"),
+                getIntent().getStringExtra("isbn"), getIntent().getStringExtra("subject"));
 
         //set ids for views
         titleTextView = findViewById(R.id.title_text_view_book);
@@ -69,7 +65,7 @@ public class BookView extends AppCompatActivity {
         isbnTextView.setText(currentBook.getISBN());
 
         //return reviews for currentBook from db and add to scroll view
-        getReviews(title);
+        getReviews(currentBook.getTitle());
 
 
         reviewButton.setOnClickListener(new View.OnClickListener() {
