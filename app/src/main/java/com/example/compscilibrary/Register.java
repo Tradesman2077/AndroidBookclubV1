@@ -60,9 +60,9 @@ public class Register extends AppCompatActivity {
         passwordInput = findViewById(R.id.password_entry_edit_text);
         passwordInputConfirm = findViewById(R.id.confirm_password_entry);
         confirmRegistrationButton = findViewById(R.id.submit_register_button);
-
+        Toast toast = new Toast(getApplicationContext());
         Intent loggedInIntent = new Intent(this, Login.class);
-
+        toast.cancel();
         confirmRegistrationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -121,7 +121,7 @@ public class Register extends AppCompatActivity {
                 }
                 else {
                     //else if email not valid
-                    Toast.makeText(Register.this, "Please enter a valid email", Toast.LENGTH_SHORT).show();
+                    toast.makeText(Register.this, "Please enter a valid email", Toast.LENGTH_SHORT).show();
                 }
             }
         });
